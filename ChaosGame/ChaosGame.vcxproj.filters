@@ -48,11 +48,14 @@
     <ClInclude Include="ProgramGLSL.h">
       <Filter>OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderHelpers.h">
-      <Filter>OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaosGameGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLHelpers.h">
+      <Filter>OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +77,14 @@
     <ClCompile Include="ProgramGLSL.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderHelpers.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaosGameGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLHelpers.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

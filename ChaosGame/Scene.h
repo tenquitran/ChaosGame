@@ -33,16 +33,6 @@ namespace ChaosGameApp
 		void updateViewMatrices(const std::unique_ptr<Camera>& spCamera) const;
 
 	private:
-		// Create and set up OpenGL context for the window.
-		// Parameters: versionMajor - major version number of OpenGL;
-		//             versionMinor - minor version number of OpenGL.
-		bool setupOpenGlContext(int versionMajor, int versionMinor);
-
-		// Debug callback for OpenGL-related errors.
-		static void APIENTRY openGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, 
-			GLsizei length, const GLchar* message, const void* param);
-
-	private:
 		// Field of view angle.
 		const GLfloat FieldOfView = 45.0f;
 
@@ -56,7 +46,7 @@ namespace ChaosGameApp
 		// Device context of the main window.
 		HDC m_hDC;
 
-		// OpenGL rendering context.
+		// OpenGL rendering context for the main window.
 		HGLRC m_hRC;
 
 		std::unique_ptr<Camera> m_spCamera;
@@ -66,8 +56,7 @@ namespace ChaosGameApp
 		GLuint m_vao;
 		GLuint m_vbo;
 
-		GLuint m_index;         // index buffer
-		size_t m_indexCount;    // number of indices
+		size_t m_pointCount;    // number of points to render
 
 		GLint m_unMvp;          // MVP matrix uniform
 	};

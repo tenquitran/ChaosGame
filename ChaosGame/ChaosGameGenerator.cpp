@@ -1,0 +1,17 @@
+#include "stdafx.h"
+
+//////////////////////////////////////////////////////////////////////////
+
+using namespace ChaosGameApp;
+
+//////////////////////////////////////////////////////////////////////////
+
+
+ChaosGameGenerator::ChaosGameGenerator()
+	: m_randomEngine(std::random_device{}())
+{
+}
+
+ChaosGameGenerator::~ChaosGameGenerator()
+{
+}

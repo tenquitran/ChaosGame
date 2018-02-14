@@ -29,6 +29,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <random>
 
 #include <windows.h>
 #include <atlstr.h>
@@ -60,9 +61,10 @@ namespace ChaosGameApp
 
 #include "Exception.h"
 
-#include "ShaderHelpers.h"
+#include "OpenGLHelpers.h"
 #include "ProgramGLSL.h"
 #include "Camera.h"
 
+#include "ChaosGameGenerator.h"
 #include "Scene.h"
 #include "MainWindow.h"
