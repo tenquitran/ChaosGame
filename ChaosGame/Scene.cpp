@@ -41,6 +41,10 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 	m_spCamera = std::make_unique<Camera>(aspectRatio, CameraScaleFactor, FieldOfView, FrustumNear, FrustumFar);
 
 #if 0
+	m_spCamera->rotateY(90);
+#endif
+
+#if 0
 	m_spCamera->translateZ(-1.5f);
 #endif
 
@@ -56,37 +60,22 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
-#if 0
-	std::vector<GLfloat> vertices = {
-
-#if 0    // a quad
-		0.5f, 0.5f, 0.0f,  // top right
-		0.5f, -0.5f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f,  // bottom left
-		-0.5f, 0.5f, 0.0f   // top left  
-#else
-		// an equilateral triangle
-		0.0f,  1.0f, 0.0f,
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f
-#endif
-	};
-
-	m_pointCount = vertices.size() / 3;    // 3 coordinates per vertex
-#else
-
 	// Generate vertex coordinates for the chaos game.
 
-	// V - number of polygon vertices
-	// F - fraction of the distance between the current point and one of the polygon vertices (F < 1.0)
+	// 2D version
+#if 1
+
+#if 0
+	// V - number of vertices
+	// F - fraction of the distance between the current point and one of the polygon vertices (0.0 < F < 1.0)
 	// Iterations - number of iterations of the algorithm.
 
 	// TODO: hard-coded values
-	const size_t PolygonVertexCount = 3;    // a triangle
-	const size_t Iterations = 5000;
+	const size_t BoundingVertexCount = 3;    // a triangle
 	const GLfloat DistanceFraction = 0.5;
+	const size_t Iterations = 5000;
 
-	glm::vec3 polygonVertices[] = {
+	glm::vec3 boundingVertices[BoundingVertexCount] = {
 		{  0.0f,  1.0f, 0.0f },
 		{ -1.0f, -1.0f, 0.0f },
 		{  1.0f, -1.0f, 0.0f }
@@ -96,17 +85,17 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 	size_t vertexOffset = {};
 
 	// Current point: a random point inside the polygon - e.g. center of one of the polygon's sides.
-	glm::vec3 p = { (polygonVertices[0] + polygonVertices[1]) / 2.0f };
+	glm::vec3 p = { (boundingVertices[0] + boundingVertices[1]) / 2.0f };
 	vertices[vertexOffset++] = p;
 
 	// Random numbers generator to select the polygon vertices.
 	std::mt19937 mt(std::random_device{}());
-	std::uniform_int_distribution<int> distr(0, PolygonVertexCount - 1);
+	std::uniform_int_distribution<int> distr(0, BoundingVertexCount - 1);
 
 	for (size_t i = 1; i < Iterations; ++i)
 	{
 		// Select the current vertex by randomly choosing its index.
-		glm::vec3 v = polygonVertices[distr(mt)];
+		glm::vec3 v = boundingVertices[distr(mt)];
 
 		p = (v + p) * DistanceFraction;
 
@@ -115,6 +104,73 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 
 	m_pointCount = Iterations;
 #endif
+
+#else
+	// 3D version.
+
+	// TODO: hard-coded values
+	const size_t BoundingVertexCount = 4;    // a tetrahedron
+	const GLfloat DistanceFraction = 0.5;
+	const size_t Iterations = 20000;
+
+	glm::vec3 boundingVertices[BoundingVertexCount] = {
+		// base
+		{ -1.0f, -1.0f,  1.0f },
+		{  1.0f, -1.0f,  1.0f },
+		{  0.0f, -1.0f, -1.0f },
+		// top
+		{  0.0f,  1.0f,  0.0f },
+	};
+
+	glm::vec3 vertices[Iterations];
+	size_t vertexOffset = {};
+
+	// Current point: a random point inside the polygon - e.g. center of one of the polygon's sides.
+	glm::vec3 p = { (boundingVertices[0] + boundingVertices[1]) / 2.0f };
+	vertices[vertexOffset++] = p;
+
+	// Random numbers generator to select the polygon vertices.
+	std::mt19937 mt(std::random_device{}());
+	std::uniform_int_distribution<int> distr(0, BoundingVertexCount - 1);
+
+	for (size_t i = 1; i < Iterations; ++i)
+	{
+		// Select the current vertex by randomly choosing its index.
+		glm::vec3 v = boundingVertices[distr(mt)];
+
+		p = (v + p) * DistanceFraction;
+
+		vertices[vertexOffset++] = p;
+	}
+
+	m_pointCount = Iterations;
+#endif
+
+	// TODO: hard-coded shape.
+	m_spShape = std::make_unique<Tetrahedron>();
+	//m_spShape = std::make_unique<Triangle>();
+
+	const GLfloat DistanceFraction = 0.5;
+	const size_t Iterations = 15000;
+
+	glm::vec3 vertices[Iterations];
+	size_t vertexOffset = {};
+
+	// Current point: a random point inside the polygon - e.g. center of one of the polygon's sides.
+	glm::vec3 p = m_spShape->getRandomPointInside();
+	vertices[vertexOffset++] = p;
+
+	for (size_t i = 1; i < Iterations; ++i)
+	{
+		// Select the current vertex by randomly choosing its index.
+		glm::vec3 v = m_spShape->selectRandomVertex();
+
+		p = (v + p) * DistanceFraction;
+
+		vertices[vertexOffset++] = p;
+	}
+
+	m_pointCount = Iterations;
 
 	// Generate VBO and fill it with the data.
 

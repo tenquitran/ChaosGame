@@ -59,5 +59,8 @@ namespace ChaosGameApp
 		size_t m_pointCount;    // number of points to render
 
 		GLint m_unMvp;          // MVP matrix uniform
+
+		// Bounding shape for chaos game.
+		std::unique_ptr<Shape> m_spShape;
 	};
 }

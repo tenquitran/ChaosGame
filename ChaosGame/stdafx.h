@@ -65,6 +65,9 @@ namespace ChaosGameApp
 #include "ProgramGLSL.h"
 #include "Camera.h"
 
-#include "ChaosGameGenerator.h"
+#include "Shape.h"
+#include "Triangle.h"
+#include "Tetrahedron.h"
+
 #include "Scene.h"
 #include "MainWindow.h"

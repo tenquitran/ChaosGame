@@ -22,7 +22,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	try
 	{
 		const int ClientWidth  = 500;
-		const int ClientHeight = 350;
+		const int ClientHeight = 500;
 
 		MainWindow mainWindow(hInstance, nCmdShow, ClientWidth, ClientHeight);
 

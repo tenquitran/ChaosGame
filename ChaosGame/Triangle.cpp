@@ -7,11 +7,12 @@ using namespace ChaosGameApp;
 //////////////////////////////////////////////////////////////////////////
 
 
-ChaosGameGenerator::ChaosGameGenerator()
-	: m_randomEngine(std::random_device{}())
+Triangle::Triangle()
+	: Shape(VertexCount)
 {
-}
-
-ChaosGameGenerator::~ChaosGameGenerator()
-{
+	m_vertices = {
+		{  0.0f,  1.0f,  0.0f },
+		{ -1.0f, -1.0f,  0.0f },
+		{  1.0f, -1.0f,  0.0f }
+	};
 }

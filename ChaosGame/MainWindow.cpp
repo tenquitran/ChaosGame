@@ -192,6 +192,75 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_KEYDOWN:
+		{
+			int key = (int)wParam;
+			//LPARAM keyData = lParam;
+
+			switch (key)
+			{
+#if 0
+			case VK_ESCAPE:
+				DestroyWindow(hWnd);
+				break;
+			// Translate the model.
+			case VK_NUMPAD2:
+				pMainWnd->m_spDemo->translateModelX(0.1f);
+				break;
+			case VK_NUMPAD3:
+				pMainWnd->m_spDemo->translateModelX(-0.1f);
+				break;
+				// TODO: translate the second model.
+			case VK_NUMPAD4:
+				pMainWnd->m_spDemo->translateModelX_2(0.7f);
+				break;
+			case VK_NUMPAD5:
+				pMainWnd->m_spDemo->translateModelX_2(-0.7f);
+				break;
+			// Translate the camera.
+			case 0x57:    // W key
+				pMainWnd->m_spDemo->translateCameraY(0.1f);
+				break;
+			case 0x53:    // S key
+				pMainWnd->m_spDemo->translateCameraY(-0.1f);
+				break;
+			case 0x41:    // A key
+				pMainWnd->m_spDemo->translateCameraX(-0.1f);
+				break;
+			case 0x44:    // D key
+				pMainWnd->m_spDemo->translateCameraX(0.1f);
+				break;
+				// TODO: more appropriate keys to translate on the Z axis
+			case 0x5A:    // Z key: move farther
+				pMainWnd->m_spDemo->translateCameraZ(-0.1f);
+				break;
+			case 0x43:    // C key: move closer
+				pMainWnd->m_spDemo->translateCameraZ(0.1f);
+				break;
+#endif
+			// Rotate the camera.
+			case VK_UP:
+				pMainWnd->m_spScene->rotateCameraX(2.0f);
+				break;
+			case VK_DOWN:
+				pMainWnd->m_spScene->rotateCameraX(-2.0f);
+				break;
+			case VK_LEFT:
+				pMainWnd->m_spScene->rotateCameraY(-2.0f);
+				break;
+			case VK_RIGHT:
+				pMainWnd->m_spScene->rotateCameraY(2.0f);
+				break;
+			// Zoom in/out for camera.
+			case VK_NUMPAD0:
+				pMainWnd->m_spScene->scaleCamera(-0.05f);
+				break;
+			case VK_NUMPAD1:
+				pMainWnd->m_spScene->scaleCamera(0.05f);
+				break;
+			}
+		}
+		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

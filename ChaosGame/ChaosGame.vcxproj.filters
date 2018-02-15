@@ -22,6 +22,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{329e360d-3cb8-42bc-ad0d-70dba4bf7c04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Generator">
+      <UniqueIdentifier>{0cfda708-248d-4ee7-ad3a-ad37a6fb3b80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -51,11 +54,17 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChaosGameGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGLHelpers.h">
       <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="Tetrahedron.h">
+      <Filter>Generator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,11 +89,17 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ChaosGameGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OpenGLHelpers.cpp">
       <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="Tetrahedron.cpp">
+      <Filter>Generator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

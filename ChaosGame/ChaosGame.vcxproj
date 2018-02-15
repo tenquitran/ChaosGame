@@ -82,29 +82,33 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ChaosGameGenerator.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="ProgramGLSL.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="OpenGLHelpers.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Tetrahedron.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ChaosGameGenerator.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="OpenGLHelpers.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Tetrahedron.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ChaosGame.rc" />
