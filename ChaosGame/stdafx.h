@@ -29,6 +29,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <deque>
 #include <random>
 
 #include <windows.h>
@@ -61,13 +62,21 @@ namespace ChaosGameApp
 
 #include "Exception.h"
 
+// Common OpenGL functionality.
 #include "OpenGLHelpers.h"
 #include "ProgramGLSL.h"
 #include "Camera.h"
 
+#include "VertexRestrictions.h"
+
+// Uncomment to display the bounding shape instead of the chaos game vertices (useful for debugging, etc.).
+//#define DISPLAY_BOUNDING_SHAPE    1
+
+// Shapes for the chaos game.
 #include "Shape.h"
 #include "Triangle.h"
 #include "Tetrahedron.h"
+#include "Pentagon.h"
 
 #include "Scene.h"
 #include "MainWindow.h"

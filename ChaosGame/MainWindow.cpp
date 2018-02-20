@@ -251,7 +251,7 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 			case VK_RIGHT:
 				pMainWnd->m_spScene->rotateCameraY(2.0f);
 				break;
-			// Zoom in/out for camera.
+			// Zoom in/out for the camera.
 			case VK_NUMPAD0:
 				pMainWnd->m_spScene->scaleCamera(-0.05f);
 				break;

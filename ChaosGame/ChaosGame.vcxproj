@@ -84,6 +84,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Pentagon.h" />
     <ClInclude Include="ProgramGLSL.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -93,12 +94,14 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tetrahedron.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="VertexRestrictions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Pentagon.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="OpenGLHelpers.cpp" />

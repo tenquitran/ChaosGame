@@ -147,11 +147,14 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 #endif
 
 	// TODO: hard-coded shape.
-	m_spShape = std::make_unique<Tetrahedron>();
+	m_spShape = std::make_unique<Pentagon>();
+	//m_spShape = std::make_unique<Tetrahedron>();
 	//m_spShape = std::make_unique<Triangle>();
 
+	m_spShape->setVertexRestrictions(VertexRestrictions::NotTheSame);
+
 	const GLfloat DistanceFraction = 0.5;
-	const size_t Iterations = 15000;
+	const size_t Iterations = 25000;
 
 	glm::vec3 vertices[Iterations];
 	size_t vertexOffset = {};
@@ -163,20 +166,33 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 	for (size_t i = 1; i < Iterations; ++i)
 	{
 		// Select the current vertex by randomly choosing its index.
-		glm::vec3 v = m_spShape->selectRandomVertex();
+		glm::vec3 v = m_spShape->selectVertex();
 
 		p = (v + p) * DistanceFraction;
 
 		vertices[vertexOffset++] = p;
 	}
 
+#ifndef DISPLAY_BOUNDING_SHAPE
+	// Display the chaos game vertices.
 	m_pointCount = Iterations;
+#else
+	// Display the bounding shape.
+	m_pointCount = m_spShape->VertexCount;
+#endif
 
 	// Generate VBO and fill it with the data.
 
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+
+#ifndef DISPLAY_BOUNDING_SHAPE
+	// Display the chaos game vertices.
 	glBufferData(GL_ARRAY_BUFFER, _countof(vertices) * sizeof(vertices[0]), vertices, GL_STATIC_DRAW);
+#else
+	// Display the bounding shape.
+	glBufferData(GL_ARRAY_BUFFER, m_spShape->m_vertices.size() * sizeof(vertices[0]), &m_spShape->m_vertices[0], GL_STATIC_DRAW);
+#endif
 
 	// Fill in the vertex position attribute.
 	const GLuint attrVertexPosition = 0;
@@ -193,8 +209,8 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 		assert(false); throw EXCEPTION(L"Failed to get uniform location: mvp");
 	}
 
-	// TODO: temp. Increase size of the points
-#if 0
+#if DISPLAY_BOUNDING_SHAPE
+	// Increase size of the points.
 	glPointSize(4.0f);
 #endif
 }

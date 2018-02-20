@@ -66,6 +66,12 @@
     <ClInclude Include="Tetrahedron.h">
       <Filter>Generator</Filter>
     </ClInclude>
+    <ClInclude Include="Pentagon.h">
+      <Filter>Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexRestrictions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -99,6 +105,9 @@
       <Filter>Generator</Filter>
     </ClCompile>
     <ClCompile Include="Tetrahedron.cpp">
+      <Filter>Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="Pentagon.cpp">
       <Filter>Generator</Filter>
     </ClCompile>
   </ItemGroup>

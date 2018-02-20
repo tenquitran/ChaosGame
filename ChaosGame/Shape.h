@@ -14,9 +14,17 @@ namespace ChaosGameApp
 		glm::vec3 getRandomPointInside() const;
 
 		// Randomly select a vertex.
-		glm::vec3 selectRandomVertex() const;
+		glm::vec3 selectVertex() const;
 
+		// Set restrictions on vertex selection.
+		// Usually called during shape initialization.
+		void setVertexRestrictions(VertexRestrictions restrictions);
+
+#if DISPLAY_BOUNDING_SHAPE
+	public:
+#else
 	protected:
+#endif
 		// Number of vertices defining the shape.
 		const size_t VertexCount;
 
@@ -28,5 +36,12 @@ namespace ChaosGameApp
 
 		// Random number generator.
 		std::uniform_int_distribution<size_t> m_rng;
+
+		// Restrictions on vertex selection.
+		VertexRestrictions m_selectionRestrictions;
+
+		// Previously chosen vertex indices 
+		// (front - the previous one, next - the one before the previous, etc.).
+		mutable std::deque<size_t> m_previousVertices;
 	};
 }
