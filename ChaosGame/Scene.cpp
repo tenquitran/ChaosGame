@@ -52,6 +52,7 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 
 	const ShaderCollection shaders = {
 		{ GL_VERTEX_SHADER,   "shaders\\chaos.vert" },
+		{ GL_GEOMETRY_SHADER, "shaders\\chaos.geom" },
 		{ GL_FRAGMENT_SHADER, "shaders\\chaos.frag" }
 	};
 
@@ -147,11 +148,11 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 #endif
 
 	// TODO: hard-coded shape.
-	m_spShape = std::make_unique<Pentagon>();
-	//m_spShape = std::make_unique<Tetrahedron>();
+	//m_spShape = std::make_unique<Pentagon>();
+	m_spShape = std::make_unique<Tetrahedron>();
 	//m_spShape = std::make_unique<Triangle>();
 
-	m_spShape->setVertexRestrictions(VertexRestrictions::NotTheSame);
+	//m_spShape->setVertexRestrictions(VertexRestrictions::NotTheSame);
 
 	const GLfloat DistanceFraction = 0.5;
 	const size_t Iterations = 25000;

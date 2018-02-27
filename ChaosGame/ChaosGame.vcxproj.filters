@@ -131,5 +131,8 @@
     <None Include="shaders\chaos.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\chaos.geom">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
