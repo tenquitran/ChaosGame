@@ -22,7 +22,7 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{329e360d-3cb8-42bc-ad0d-70dba4bf7c04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Generator">
+    <Filter Include="Shapes">
       <UniqueIdentifier>{0cfda708-248d-4ee7-ad3a-ad37a6fb3b80}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -58,19 +58,25 @@
       <Filter>OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Shape.h">
-      <Filter>Generator</Filter>
+      <Filter>Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
-      <Filter>Generator</Filter>
+      <Filter>Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Tetrahedron.h">
-      <Filter>Generator</Filter>
+      <Filter>Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Pentagon.h">
-      <Filter>Generator</Filter>
+      <Filter>Shapes</Filter>
     </ClInclude>
     <ClInclude Include="VertexRestrictions.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Hexagon.h">
+      <Filter>Shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -99,16 +105,7 @@
       <Filter>OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
-      <Filter>Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangle.cpp">
-      <Filter>Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="Tetrahedron.cpp">
-      <Filter>Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="Pentagon.cpp">
-      <Filter>Generator</Filter>
+      <Filter>Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

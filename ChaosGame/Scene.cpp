@@ -52,7 +52,10 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 
 	const ShaderCollection shaders = {
 		{ GL_VERTEX_SHADER,   "shaders\\chaos.vert" },
-		{ GL_GEOMETRY_SHADER, "shaders\\chaos.geom" },
+
+		// TODO: uncomment
+		//{ GL_GEOMETRY_SHADER, "shaders\\chaos.geom" },
+
 		{ GL_FRAGMENT_SHADER, "shaders\\chaos.frag" }
 	};
 
@@ -148,14 +151,20 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 #endif
 
 	// TODO: hard-coded shape.
+	//m_spShape = std::make_unique<Hexagon>();
 	//m_spShape = std::make_unique<Pentagon>();
-	m_spShape = std::make_unique<Tetrahedron>();
+	m_spShape = std::make_unique<Square>();
+	//m_spShape = std::make_unique<Tetrahedron>();
 	//m_spShape = std::make_unique<Triangle>();
 
-	//m_spShape->setVertexRestrictions(VertexRestrictions::NotTheSame);
+	m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_1);
+	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffsets_1_and_3);
+
+	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_2);
+	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotTheSame);
 
 	const GLfloat DistanceFraction = 0.5;
-	const size_t Iterations = 25000;
+	const size_t Iterations = 50000;    // 100,000 is too many
 
 	glm::vec3 vertices[Iterations];
 	size_t vertexOffset = {};

@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Exception.h" />
+    <ClInclude Include="Hexagon.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Pentagon.h" />
     <ClInclude Include="ProgramGLSL.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="OpenGLHelpers.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tetrahedron.h" />
@@ -101,7 +103,6 @@
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="Pentagon.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="OpenGLHelpers.cpp" />
@@ -110,8 +111,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Tetrahedron.cpp" />
-    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ChaosGame.rc" />

@@ -10,6 +10,9 @@ namespace ChaosGameApp
 		// Parameters: vertexCount - number of vertices defining the shape (at least three).
 		explicit Shape(size_t vertexCount);
 
+		// Get number of vertices defining the shape (at least three).
+		virtual size_t getVertexCount() const = 0;
+
 		// Select a random point inside the shape.
 		glm::vec3 getRandomPointInside() const;
 
@@ -18,7 +21,7 @@ namespace ChaosGameApp
 
 		// Set restrictions on vertex selection.
 		// Usually called during shape initialization.
-		void setVertexRestrictions(VertexRestrictions restrictions);
+		void setVertexRestrictions(EVertexRestrictions restrictions);
 
 #if DISPLAY_BOUNDING_SHAPE
 	public:
@@ -38,7 +41,7 @@ namespace ChaosGameApp
 		std::uniform_int_distribution<size_t> m_rng;
 
 		// Restrictions on vertex selection.
-		VertexRestrictions m_selectionRestrictions;
+		EVertexRestrictions m_selectionRestrictions;
 
 		// Previously chosen vertex indices 
 		// (front - the previous one, next - the one before the previous, etc.).

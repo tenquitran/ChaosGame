@@ -16,7 +16,7 @@ Shape::Shape(size_t vertexCount)
 	: VertexCount(vertexCount), 
 	  m_randomEngine(std::random_device{}()), 
 	  m_rng(0, vertexCount - 1),
-	  m_selectionRestrictions(VertexRestrictions::None)
+	  m_selectionRestrictions(EVertexRestrictions::None)
 {
 	if (VertexCount < 3)
 	{
@@ -36,9 +36,9 @@ glm::vec3 Shape::selectVertex() const
 
 	switch (m_selectionRestrictions)
 	{
-	case VertexRestrictions::None:
+	case EVertexRestrictions::None:
 		break;
-	case VertexRestrictions::NotTheSame:
+	case EVertexRestrictions::NotTheSame:
 		if (!m_previousVertices.empty())
 		{
 			while (m_previousVertices.front() == index)
@@ -47,15 +47,78 @@ glm::vec3 Shape::selectVertex() const
 			}
 		}
 		break;
-	case VertexRestrictions::CannotHaveOffset_2:
-		assert(false);    // TODO: implement
+		// TODO: wrong
+#if 1
+	case EVertexRestrictions::NotOffset_1:
+		if (!m_previousVertices.empty())
+		{
+			while (
+				(VertexCount - 1 != m_previousVertices.front()
+				&& 1 == abs((int)(m_previousVertices.front() - index)))
+				|| 
+				
+				(VertexCount - 1 == m_previousVertices.front()
+				 && 1 == index)
+				)
+			{
+				index = m_rng(m_randomEngine);
+			}
+		}
 		break;
-	case VertexRestrictions::CannotHaveOffsets_1_and_3:
-		assert(false);    // TODO: implement
+#endif
+	// TODO: wrong
+#if 1
+	case EVertexRestrictions::NotOffset_1_Anticlockwise:
+		if (!m_previousVertices.empty())
+		{
+			while ((VertexCount - 1 != m_previousVertices.front()
+				&& 1 == m_previousVertices.front() - index)
+				|| (VertexCount - 1 == m_previousVertices.front()
+				   && 0 == index))
+			{
+				index = m_rng(m_randomEngine);
+			}
+		}
 		break;
-	case VertexRestrictions::CannotHaveOffsets_1_and_4:
-		assert(false);    // TODO: implement
+#endif
+
+	// WARNING: won't work for a pentagon
+	case EVertexRestrictions::NotOffset_2:
+		if (!m_previousVertices.empty())
+		{
+			while (2 == abs((int)(m_previousVertices.front() - index)))
+			{
+				index = m_rng(m_randomEngine);
+			}
+		}
 		break;
+	// TODO: wrong
+#if 1
+	case EVertexRestrictions::NotOffsets_1_and_3:
+		if (!m_previousVertices.empty())
+		{
+			while (   1 == abs((int)(m_previousVertices.front() - index))
+				   || 3 == abs((int)(m_previousVertices.back()  - index)))
+			{
+				index = m_rng(m_randomEngine);
+			}
+		}
+		break;
+#endif
+
+		// TODO: wrong
+#if 1
+	case EVertexRestrictions::NotOffsets_1_and_4:
+		if (!m_previousVertices.empty())
+		{
+			while (   1 == abs((int)(m_previousVertices.front() - index))
+				   || 4 == abs((int)(m_previousVertices.back()  - index)))
+			{
+				index = m_rng(m_randomEngine);
+			}
+		}
+		break;
+#endif
 	default:    // new restriction?
 		assert(false); break;
 	}
@@ -72,7 +135,7 @@ glm::vec3 Shape::selectVertex() const
 	return m_vertices[index];
 }
 
-void Shape::setVertexRestrictions(VertexRestrictions restrictions)
+void Shape::setVertexRestrictions(EVertexRestrictions restrictions)
 {
 	m_selectionRestrictions = restrictions;
 }

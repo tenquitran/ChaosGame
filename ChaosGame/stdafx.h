@@ -31,6 +31,7 @@
 #include <map>
 #include <deque>
 #include <random>
+#include <cmath>
 
 #include <windows.h>
 #include <atlstr.h>
@@ -55,7 +56,7 @@
 
 namespace ChaosGameApp
 {
-	// For OpenGL code.
+// For OpenGL code.
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 }
 
@@ -77,6 +78,8 @@ namespace ChaosGameApp
 #include "Triangle.h"
 #include "Tetrahedron.h"
 #include "Pentagon.h"
+#include "Square.h"
+#include "Hexagon.h"
 
 #include "Scene.h"
 #include "MainWindow.h"

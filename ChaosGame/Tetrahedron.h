@@ -7,10 +7,22 @@ namespace ChaosGameApp
 		: public Shape
 	{
 	public:
-		Tetrahedron();
+		Tetrahedron()
+			: Shape(getVertexCount())
+		{
+			// TODO: rotate
+			m_vertices = {
+				{  1.0f,  0.0f, -0.707f },
+				{ -1.0f,  0.0f, -0.707f },
+				{  0.0f,  1.0f,  0.707f },
+				{  0.0f, -1.0f,  0.707f },
+			};
+		}
 
-	private:
-		// Number of vertices defining the shape.
-		static const size_t VertexCount = 4;
+		// Get number of vertices defining the shape (at least three).
+		virtual size_t getVertexCount() const override
+		{
+			return 4;
+		}
 	};
 }

@@ -3,24 +3,25 @@
 
 namespace ChaosGameApp
 {
-	struct Triangle
+	class Square 
 		: public Shape
 	{
 	public:
-		Triangle()
+		Square()
 			: Shape(getVertexCount())
 		{
-			m_vertices = {
-				{  0.0f,  0.866f, 0.0f },
-				{ -1.0f, -1.0f,   0.0f },
-				{  1.0f, -1.0f,   0.0f }
+			m_vertices = { 
+				{ -1.0f, -1.0f, 0.0f },
+				{ -1.0f,  1.0f, 0.0f },
+				{  1.0f,  1.0f, 0.0f },
+				{  1.0f, -1.0f, 0.0f }
 			};
 		}
 
 		// Get number of vertices defining the shape (at least three).
 		virtual size_t getVertexCount() const override
 		{
-			return 3;
+			return 4;
 		}
 	};
 }
