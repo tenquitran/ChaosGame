@@ -152,16 +152,18 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 
 	// TODO: hard-coded shape.
 	//m_spShape = std::make_unique<Hexagon>();
-	//m_spShape = std::make_unique<Pentagon>();
-	m_spShape = std::make_unique<Square>();
+	m_spShape = std::make_unique<Pentagon>();
+	//m_spShape = std::make_unique<Square>();
 	//m_spShape = std::make_unique<Tetrahedron>();
 	//m_spShape = std::make_unique<Triangle>();
 
-	m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_1);
+	m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffsets_1_and_4);
+	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_1);
 	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffsets_1_and_3);
 
 	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_2);
 	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotTheSame);
+	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_1_Anticlockwise);
 
 	const GLfloat DistanceFraction = 0.5;
 	const size_t Iterations = 50000;    // 100,000 is too many
