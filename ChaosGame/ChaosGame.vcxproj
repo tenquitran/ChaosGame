@@ -91,6 +91,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="OpenGLHelpers.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeEnum.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

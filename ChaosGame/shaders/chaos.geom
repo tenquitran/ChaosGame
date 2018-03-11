@@ -9,7 +9,7 @@ void main(void)
 {
 	// TODO: hard-coded; make a uniform
 	// Half-diagonal of the cube.
-	float cubeHalfDiag = 0.001;
+	float cubeHalfDiag = 0.01;
 	//float cubeHalfDiag = 0.01;
 	//float cubeHalfDiag = 0.2;
 

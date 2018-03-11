@@ -23,6 +23,7 @@ Shape::Shape(size_t vertexCount)
 		assert(false); throw EXCEPTION(L"A shape should consist of at least 3 vertices");
 	}
 
+#if 0
 	if (   EVertexRestrictions::NotOffsets_1_and_3 == m_selectionRestrictions
 		&& VertexCount < 4)
 	{
@@ -33,6 +34,7 @@ Shape::Shape(size_t vertexCount)
 	{
 		assert(false); throw EXCEPTION_FMT(L"Offset 4 requires a shape with at least 5 vertices");
 	}
+#endif
 }
 
 glm::vec3 Shape::getRandomPointInside() const
@@ -101,7 +103,7 @@ glm::vec3 Shape::selectVertex() const
 		break;
 
 	// TODO: wrong
-#if 1
+#if 0
 	case EVertexRestrictions::NotOffsets_1_and_3:
 		if (!m_previousVertices.empty())
 		{
@@ -131,7 +133,7 @@ glm::vec3 Shape::selectVertex() const
 #endif
 
 		// TODO: wrong
-#if 1
+#if 0
 	case EVertexRestrictions::NotOffsets_1_and_4:
 		if (!m_previousVertices.empty())
 		{

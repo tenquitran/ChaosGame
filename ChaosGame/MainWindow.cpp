@@ -9,7 +9,8 @@ using namespace ChaosGameApp;
 
 
 MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
-	: m_hInstance(hInstance), m_clientWidth(width), m_clientHeight(height)
+	: m_hInstance(hInstance), m_clientWidth(width), m_clientHeight(height), 
+	  m_hWnd(nullptr), m_hRC(nullptr), m_shape(EShape::Undefined), m_restrictions(EVertexRestrictions::None)
 {
 	if (!m_hInstance)
 	{
@@ -94,8 +95,7 @@ BOOL MainWindow::initInstance(int nCmdShow)
 
 int MainWindow::runMessageLoop()
 {
-	MSG msg = {};
-
+#if 0
 	// Initialize the scene.
 
 	if (0 == m_clientHeight)    // prevent dividing by zero
@@ -106,6 +106,42 @@ int MainWindow::runMessageLoop()
 	GLfloat aspectRatio = m_clientWidth / (GLfloat)m_clientHeight;
 
 	m_spScene = std::make_unique<Scene>(m_hWnd, GetDC(m_hWnd), aspectRatio);
+#endif
+
+	HDC hDC = GetDC(m_hWnd);
+	if (!hDC)
+	{
+		std::cerr << __FUNCTION__ << ": device context is NULL\n";
+		assert(false); return 1;
+	}
+
+	// Set up OpenGL context for our window.
+
+	const int OpenGlMajor = 4;
+	const int OpenGlMinor = 4;
+
+	if (!OpenGLHelpers::setupOpenGlContext(OpenGlMajor, OpenGlMinor, hDC, m_hRC))
+	{
+		std::cerr << "Failed to set up OpenGL context (version " << OpenGlMajor << "." << OpenGlMinor << ")\n";
+		assert(false); return 1;
+	}
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
+	glClearColor(0.8f, 0.93f, 0.96f, 1.0f);    // very light blue
+
+	// Initialize the program wrapper.
+
+	const ShaderCollection shaders = {
+		{ GL_VERTEX_SHADER, "shaders\\chaos.vert" },
+		{ GL_GEOMETRY_SHADER, "shaders\\chaos.geom" },
+		{ GL_FRAGMENT_SHADER, "shaders\\chaos.frag" }
+	};
+
+	m_spProgram = std::make_unique<ProgramGLSL>(shaders);
+
+	MSG msg = {};
 
 	while (WM_QUIT != msg.message)
 	{
@@ -115,7 +151,10 @@ int MainWindow::runMessageLoop()
 			DispatchMessage(&msg);
 		}
 
-		m_spScene->render();
+		if (m_spScene)
+		{
+			m_spScene->render();
+		}
 	}
 
 	return (int)msg.wParam;
@@ -141,14 +180,21 @@ INT_PTR MainWindow::aboutProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	return (INT_PTR)FALSE;
 }
 
+void MainWindow::createScene()
+{
+	RECT rect = {};
+	GetClientRect(m_hWnd, &rect);
+
+	GLfloat aspectRatio = (rect.right - rect.left) / (GLfloat)(rect.bottom - rect.top);
+
+	m_spScene = std::make_unique<Scene>(
+		GetDC(m_hWnd), aspectRatio, m_spProgram->getProgram(), m_shape, m_restrictions);
+}
+
 LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
 	static MainWindow *pMainWnd = nullptr;
-#if 0
-	PAINTSTRUCT ps;
-	HDC hdc;
-#endif
 
 	switch (message)
 	{
@@ -163,6 +209,89 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 		// Parse the menu selections:
 		switch (wmId)
 		{
+		// Select shape.
+		case ID_SHAPE_TRIANGLE:
+			if (EShape::Triangle != pMainWnd->m_shape)
+			{
+				pMainWnd->m_shape = EShape::Triangle;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_SHAPE_SQUARE:
+			if (EShape::Square != pMainWnd->m_shape)
+			{
+				pMainWnd->m_shape = EShape::Square;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_SHAPE_PENTAGON:
+			if (EShape::Pentagon != pMainWnd->m_shape)
+			{
+				pMainWnd->m_shape = EShape::Pentagon;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_SHAPE_HEXAGON:
+			if (EShape::Hexagon != pMainWnd->m_shape)
+			{
+				pMainWnd->m_shape = EShape::Hexagon;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_SHAPE_TETRAHEDRON:
+			if (EShape::Tetrahedron != pMainWnd->m_shape)
+			{
+				pMainWnd->m_shape = EShape::Tetrahedron;
+
+				pMainWnd->createScene();
+			}
+			break;
+		// Select vertex restrictions.
+		case ID_VR_NONE:
+			if (EVertexRestrictions::None != pMainWnd->m_restrictions)
+			{
+				pMainWnd->m_restrictions = EVertexRestrictions::None;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_VR_NOT_THE_SAME:
+			if (EVertexRestrictions::NotTheSame != pMainWnd->m_restrictions)
+			{
+				pMainWnd->m_restrictions = EVertexRestrictions::NotTheSame;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_VR_NOT_OFFSET_ONE:
+			if (EVertexRestrictions::NotOffset_1 != pMainWnd->m_restrictions)
+			{
+				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_1;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_VR_NOT_OFFSET_ONE_ANTICLOCKWISE:
+			if (EVertexRestrictions::NotOffset_1_Anticlockwise != pMainWnd->m_restrictions)
+			{
+				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_1_Anticlockwise;
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_VR_NOT_OFFSET_TWO:
+			if (EVertexRestrictions::NotOffset_2 != pMainWnd->m_restrictions)
+			{
+				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_2;
+
+				pMainWnd->createScene();
+			}
+			break;
+		// Other menu items.
 		case IDM_ABOUT:
 			DialogBox(pMainWnd->m_hInstance, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, aboutProc);
 			break;
@@ -173,13 +302,6 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
 		break;
-#if 0
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		// TODO: Add any drawing code here...
-		EndPaint(hWnd, &ps);
-		break;
-#endif
 	case WM_SIZE:
 		if (pMainWnd->m_spScene)
 		{

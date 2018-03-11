@@ -100,7 +100,7 @@ GLuint OpenGLHelpers::buildShaders(const std::map<GLenum, std::string>& shaderFi
 #if _DEBUG
 			CAtlString msg;
 			msg.Format(L"Failed to link the program:\n%S\n", spLog.get());
-			::OutputDebugStringW(msg);
+			OutputDebugStringW(msg);
 #endif
 		}
 
@@ -131,7 +131,7 @@ GLuint OpenGLHelpers::buildShaders(const std::map<GLenum, std::string>& shaderFi
 #if _DEBUG
 			CAtlString msg;
 			msg.Format(L"Failed to validate the program:\n%S\n", spLog.get());
-			::OutputDebugStringW(msg);
+			OutputDebugStringW(msg);
 #endif
 		}
 
@@ -172,7 +172,7 @@ bool OpenGLHelpers::compileShader(GLuint shader, const std::string& fileName)
 #if _DEBUG
 			CAtlString msg;
 			msg.Format(L"Failed to compile shader %S:\n%S\n", fileName.c_str(), spLog.get());
-			::OutputDebugStringW(msg);
+			OutputDebugStringW(msg);
 #endif
 		}
 
@@ -218,14 +218,14 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	int pixelFormat = ChoosePixelFormat(hDC, &pfd);
 	if (0 == pixelFormat)
 	{
-		std::cerr << __FUNCTION__ << ": ChoosePixelFormat() failed: " << ::GetLastError() << '\n';
+		std::cerr << __FUNCTION__ << ": ChoosePixelFormat() failed: " << GetLastError() << '\n';
 		assert(false); return false;
 	}
 
 	// Set the pixel format for the device context and the associated window.
 	if (!SetPixelFormat(hDC, pixelFormat, &pfd))
 	{
-		std::cerr << __FUNCTION__ << ": SetPixelFormat() failed: " << ::GetLastError() << '\n';
+		std::cerr << __FUNCTION__ << ": SetPixelFormat() failed: " << GetLastError() << '\n';
 		assert(false); return false;
 	}
 
@@ -233,14 +233,14 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	HGLRC hRcTmp = wglCreateContext(hDC);
 	if (!hRcTmp)
 	{
-		std::cerr << __FUNCTION__ << ": wglCreateContext() failed: " << ::GetLastError() << '\n';
+		std::cerr << __FUNCTION__ << ": wglCreateContext() failed: " << GetLastError() << '\n';
 		assert(false); return false;
 	}
 
 	// Step 3. Make the temporary rendering context current for our thread.
 	if (!wglMakeCurrent(hDC, hRcTmp))
 	{
-		std::cerr << __FUNCTION__ << ": wglMakeCurrent() failed: " << ::GetLastError() << '\n';
+		std::cerr << __FUNCTION__ << ": wglMakeCurrent() failed: " << GetLastError() << '\n';
 		assert(false); return false;
 	}
 
@@ -289,9 +289,11 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	// Step 6. Make the final rendering context current for our thread.
 	if (!wglMakeCurrent(hDC, hRC))
 	{
-		std::cerr << __FUNCTION__ << ": wglMakeCurrent() failed (2): " << ::GetLastError() << '\n';
+		std::cerr << __FUNCTION__ << ": wglMakeCurrent() failed (2): " << GetLastError() << '\n';
 		assert(false); return false;
 	}
+
+	std::cout << "Set up OpenGL context: version " << versionMajor << "." << versionMinor << '\n';
 
 	glDebugMessageCallback(openGlDebugCallback, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);

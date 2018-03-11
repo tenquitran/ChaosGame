@@ -32,6 +32,8 @@ namespace ChaosGameApp
 
 		BOOL initInstance(int nCmdShow);
 
+		void createScene();
+
 	protected:
 		// Application instance.
 		HINSTANCE m_hInstance;
@@ -50,6 +52,18 @@ namespace ChaosGameApp
 
 		// Window handle.
 		HWND m_hWnd;
+
+		// OpenGL rendering context.
+		HGLRC m_hRC;
+
+		// GLSL program.
+		std::unique_ptr<ProgramGLSL> m_spProgram;
+
+		// Shape for the chaos game.
+		EShape m_shape;
+
+		// Vertex restrictions for the chaos game.
+		EVertexRestrictions m_restrictions;
 
 		// OpenGL scene for the chaos game.
 		std::unique_ptr<Scene> m_spScene;

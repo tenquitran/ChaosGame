@@ -7,166 +7,55 @@ using namespace ChaosGameApp;
 //////////////////////////////////////////////////////////////////////////
 
 
-Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
-	: m_hWnd(hWnd), m_hDC(hDC), m_hRC(nullptr), m_vao{}, m_vbo{}, m_pointCount{}, m_unMvp(-1)
+Scene::Scene(HDC hDC, GLfloat aspectRatio, GLuint program, EShape shape, EVertexRestrictions restrictions)
+	: m_hDC(hDC), m_program(program), m_vao{}, m_vbo{}, m_pointCount{}, m_unMvp(-1)
 {
-	if (!m_hWnd)
-	{
-		assert(false); throw EXCEPTION(L"Window handle is NULL");
-	}
-	else if (!m_hDC)
+	if (!m_hDC)
 	{
 		assert(false); throw EXCEPTION(L"Window device context is NULL");
 	}
-
-	// Set up OpenGL context for our window.
-
-	const int OpenGlMajor = 4;
-	const int OpenGlMinor = 4;
-
-	if (!OpenGLHelpers::setupOpenGlContext(OpenGlMajor, OpenGlMinor, m_hDC, m_hRC))
+	else if (!m_program)
 	{
-		assert(false); throw EXCEPTION_FMT(L"Failed to set up OpenGL context (version %d.%d)", OpenGlMajor, OpenGlMinor);
+		assert(false); throw EXCEPTION(L"Invalid GLSL program ID");
 	}
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-
-	glClearColor(0.8f, 0.93f, 0.96f, 1.0f);    // very light blue
-	//glClearColor(0.0f, 0.64f, 0.91f, 1.0f);    // light blue
-
 	// Initial scale factor for the camera.
-	const GLfloat CameraScaleFactor = 1.0f; /*3.5f;*/
+	const GLfloat CameraScaleFactor = 1.0f;
 
 	m_spCamera = std::make_unique<Camera>(aspectRatio, CameraScaleFactor, FieldOfView, FrustumNear, FrustumFar);
-
-#if 0
-	m_spCamera->rotateY(90);
-#endif
-
-#if 0
-	m_spCamera->translateZ(-1.5f);
-#endif
-
-	// Initialize the program wrapper.
-
-	const ShaderCollection shaders = {
-		{ GL_VERTEX_SHADER,   "shaders\\chaos.vert" },
-
-		// TODO: uncomment
-		//{ GL_GEOMETRY_SHADER, "shaders\\chaos.geom" },
-
-		{ GL_FRAGMENT_SHADER, "shaders\\chaos.frag" }
-	};
-
-	m_spProgram = std::make_unique<ProgramGLSL>(shaders);
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
+	// Select shape for the chaos game.
+	switch (shape)
+	{
+	case EShape::Triangle:
+		m_spShape = std::make_unique<Triangle>();
+		break;
+	case EShape::Square:
+		m_spShape = std::make_unique<Square>();
+		break;
+	case EShape::Pentagon:
+		m_spShape = std::make_unique<Pentagon>();
+		break;
+	case EShape::Hexagon:
+		m_spShape = std::make_unique<Hexagon>();
+		break;
+	case EShape::Tetrahedron:
+		m_spShape = std::make_unique<Tetrahedron>();
+		break;
+	default:
+		assert(false); throw EXCEPTION(L"Undefined or unknown shape");
+	}
+
+	// Set vertex restrictions.
+	m_spShape->setVertexRestrictions(restrictions);
+
 	// Generate vertex coordinates for the chaos game.
 
-	// 2D version
-#if 1
-
-#if 0
-	// V - number of vertices
-	// F - fraction of the distance between the current point and one of the polygon vertices (0.0 < F < 1.0)
-	// Iterations - number of iterations of the algorithm.
-
-	// TODO: hard-coded values
-	const size_t BoundingVertexCount = 3;    // a triangle
 	const GLfloat DistanceFraction = 0.5;
-	const size_t Iterations = 5000;
-
-	glm::vec3 boundingVertices[BoundingVertexCount] = {
-		{  0.0f,  1.0f, 0.0f },
-		{ -1.0f, -1.0f, 0.0f },
-		{  1.0f, -1.0f, 0.0f }
-	};
-
-	glm::vec3 vertices[Iterations];
-	size_t vertexOffset = {};
-
-	// Current point: a random point inside the polygon - e.g. center of one of the polygon's sides.
-	glm::vec3 p = { (boundingVertices[0] + boundingVertices[1]) / 2.0f };
-	vertices[vertexOffset++] = p;
-
-	// Random numbers generator to select the polygon vertices.
-	std::mt19937 mt(std::random_device{}());
-	std::uniform_int_distribution<int> distr(0, BoundingVertexCount - 1);
-
-	for (size_t i = 1; i < Iterations; ++i)
-	{
-		// Select the current vertex by randomly choosing its index.
-		glm::vec3 v = boundingVertices[distr(mt)];
-
-		p = (v + p) * DistanceFraction;
-
-		vertices[vertexOffset++] = p;
-	}
-
-	m_pointCount = Iterations;
-#endif
-
-#else
-	// 3D version.
-
-	// TODO: hard-coded values
-	const size_t BoundingVertexCount = 4;    // a tetrahedron
-	const GLfloat DistanceFraction = 0.5;
-	const size_t Iterations = 20000;
-
-	glm::vec3 boundingVertices[BoundingVertexCount] = {
-		// base
-		{ -1.0f, -1.0f,  1.0f },
-		{  1.0f, -1.0f,  1.0f },
-		{  0.0f, -1.0f, -1.0f },
-		// top
-		{  0.0f,  1.0f,  0.0f },
-	};
-
-	glm::vec3 vertices[Iterations];
-	size_t vertexOffset = {};
-
-	// Current point: a random point inside the polygon - e.g. center of one of the polygon's sides.
-	glm::vec3 p = { (boundingVertices[0] + boundingVertices[1]) / 2.0f };
-	vertices[vertexOffset++] = p;
-
-	// Random numbers generator to select the polygon vertices.
-	std::mt19937 mt(std::random_device{}());
-	std::uniform_int_distribution<int> distr(0, BoundingVertexCount - 1);
-
-	for (size_t i = 1; i < Iterations; ++i)
-	{
-		// Select the current vertex by randomly choosing its index.
-		glm::vec3 v = boundingVertices[distr(mt)];
-
-		p = (v + p) * DistanceFraction;
-
-		vertices[vertexOffset++] = p;
-	}
-
-	m_pointCount = Iterations;
-#endif
-
-	// TODO: hard-coded shape.
-	//m_spShape = std::make_unique<Hexagon>();
-	m_spShape = std::make_unique<Pentagon>();
-	//m_spShape = std::make_unique<Square>();
-	//m_spShape = std::make_unique<Tetrahedron>();
-	//m_spShape = std::make_unique<Triangle>();
-
-	m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffsets_1_and_4);
-	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_1);
-	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffsets_1_and_3);
-
-	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_2);
-	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotTheSame);
-	//m_spShape->setVertexRestrictions(EVertexRestrictions::NotOffset_1_Anticlockwise);
-
-	const GLfloat DistanceFraction = 0.5;
-	const size_t Iterations = 50000;    // 100,000 is too many
+	const size_t Iterations = 25000;    // 100,000 is too many
 
 	glm::vec3 vertices[Iterations];
 	size_t vertexOffset = {};
@@ -213,9 +102,7 @@ Scene::Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	const GLuint program = m_spProgram->getProgram();
-
-	m_unMvp = glGetUniformLocation(program, "mvp");
+	m_unMvp = glGetUniformLocation(m_program, "mvp");
 	if (-1 == m_unMvp)
 	{
 		assert(false); throw EXCEPTION(L"Failed to get uniform location: mvp");
@@ -293,44 +180,26 @@ void Scene::scaleCamera(GLfloat amount)
 
 void Scene::updateViewMatrices(const std::unique_ptr<Camera>& spCamera) const
 {
-	assert(m_spProgram);
 	assert(-1 != m_unMvp);
 
-	// TODO: turn on
-#if 0
-	assert(-1 != m_unNormal);
-#endif
-
-	glUseProgram(m_spProgram->getProgram());
+	glUseProgram(m_program);
 
 	glm::mat4 mvp = spCamera->getModelViewProjectionMatrix();
 
 	glUniformMatrix4fv(m_unMvp, 1, GL_FALSE, glm::value_ptr(mvp));
-
-	glm::mat4 modelView = spCamera->getModelViewMatrix();
-
-	// WARNING: we are using the fact that there are no non-uniform scaling. If this will change, use the entire 4x4 matrix.
-	glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(modelView)));
-
-	//Normal = mat3(transpose(inverse(model))) * normal;
-
-	// TODO: turn on
-#if 0
-	glUniformMatrix4fv(m_unNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-#endif
 
 	glUseProgram(0);
 }
 
 void Scene::render() const
 {
+	assert(m_program);
+
 	updateViewMatrices(m_spCamera);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	assert(m_spProgram);
-
-	glUseProgram(m_spProgram->getProgram());
+	glUseProgram(m_program);
 	glBindVertexArray(m_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 

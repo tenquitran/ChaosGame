@@ -16,3 +16,5 @@ TODO:
 - add more 3D shapes
 - add color
 - add cube size regulation
+- add number of iterations
+- add distance fraction (select one of the variants)

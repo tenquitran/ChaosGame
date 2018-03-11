@@ -7,11 +7,13 @@ namespace ChaosGameApp
 	class Scene
 	{
 	public:
-		// Parameters: hWnd - main window handle;
-		//             hDC - main window device context;
-		//             aspectRatio - main window aspect ratio.
+		// Parameters: hDC - main window device context;
+		//             aspectRatio - main window aspect ratio;
+		//             program - GLSL program identifier;
+		//             shape - shape to use for the chaos game;
+		//             restrictions - vertex restrictions for the chaos game.
 		// Throws: Exception, std::bad_alloc
-		Scene(HWND hWnd, HDC hDC, GLfloat aspectRatio);
+		Scene(HDC hDC, GLfloat aspectRatio, GLuint program, EShape shape, EVertexRestrictions restrictions);
 
 		virtual ~Scene();
 
@@ -29,6 +31,7 @@ namespace ChaosGameApp
 
 		void scaleCamera(GLfloat amount);
 
+	private:
 		// Update Model-View-Projection (MVP) and other matrices in the GLSL program.
 		void updateViewMatrices(const std::unique_ptr<Camera>& spCamera) const;
 
@@ -40,18 +43,11 @@ namespace ChaosGameApp
 		const GLfloat FrustumNear = 0.1f;
 		const GLfloat FrustumFar = 1000.0f;
 
-		// Handle of the main window.
-		HWND m_hWnd;
-
 		// Device context of the main window.
 		HDC m_hDC;
 
-		// OpenGL rendering context for the main window.
-		HGLRC m_hRC;
-
-		std::unique_ptr<Camera> m_spCamera;
-
-		std::unique_ptr<ProgramGLSL> m_spProgram;
+		// GLSL program identifier.
+		GLuint m_program;
 
 		GLuint m_vao;
 		GLuint m_vbo;
@@ -59,6 +55,8 @@ namespace ChaosGameApp
 		size_t m_pointCount;    // number of points to render
 
 		GLint m_unMvp;          // MVP matrix uniform
+
+		std::unique_ptr<Camera> m_spCamera;
 
 		// Bounding shape for chaos game.
 		std::unique_ptr<Shape> m_spShape;

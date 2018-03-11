@@ -78,6 +78,9 @@
     <ClInclude Include="Hexagon.h">
       <Filter>Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeEnum.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

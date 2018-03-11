@@ -74,6 +74,7 @@ namespace ChaosGameApp
 //#define DISPLAY_BOUNDING_SHAPE    1
 
 // Shapes for the chaos game.
+#include "ShapeEnum.h"
 #include "Shape.h"
 #include "Triangle.h"
 #include "Tetrahedron.h"
