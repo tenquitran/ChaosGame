@@ -36,6 +36,9 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
 	{
 		throw EXCEPTION(L"Failed to initialize application instance");
 	}
+
+	// The default vertex restrictions are "None", so check the corresponding menu item (as a radio item).
+	CheckMenuRadioItem(GetMenu(m_hWnd), ID_NONE, ID_NOT_OFFSET_TWO, ID_NONE, MF_BYCOMMAND);
 }
 
 MainWindow::~MainWindow()
@@ -210,83 +213,103 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 		switch (wmId)
 		{
 		// Select shape.
-		case ID_SHAPE_TRIANGLE:
+		case ID_TRIANGLE:
 			if (EShape::Triangle != pMainWnd->m_shape)
 			{
 				pMainWnd->m_shape = EShape::Triangle;
 
+				CheckMenuRadioItem(GetMenu(hWnd), ID_TRIANGLE, ID_TETRAHEDRON, wmId, MF_BYCOMMAND);
+
 				pMainWnd->createScene();
 			}
 			break;
-		case ID_SHAPE_SQUARE:
+		case ID_SQUARE:
 			if (EShape::Square != pMainWnd->m_shape)
 			{
 				pMainWnd->m_shape = EShape::Square;
 
+				CheckMenuRadioItem(GetMenu(hWnd), ID_TRIANGLE, ID_TETRAHEDRON, wmId, MF_BYCOMMAND);
+
 				pMainWnd->createScene();
 			}
 			break;
-		case ID_SHAPE_PENTAGON:
+		case ID_PENTAGON:
 			if (EShape::Pentagon != pMainWnd->m_shape)
 			{
 				pMainWnd->m_shape = EShape::Pentagon;
 
-				pMainWnd->createScene();
-			}
-			break;
-		case ID_SHAPE_HEXAGON:
-			if (EShape::Hexagon != pMainWnd->m_shape)
-			{
-				pMainWnd->m_shape = EShape::Hexagon;
+				CheckMenuRadioItem(GetMenu(hWnd), ID_TRIANGLE, ID_TETRAHEDRON, wmId, MF_BYCOMMAND);
 
 				pMainWnd->createScene();
 			}
 			break;
-		case ID_SHAPE_TETRAHEDRON:
+		case ID_HEXAGON:
+			if (EShape::Hexagon != pMainWnd->m_shape)
+			{
+				pMainWnd->m_shape = EShape::Hexagon;
+
+				CheckMenuRadioItem(GetMenu(hWnd), ID_TRIANGLE, ID_TETRAHEDRON, wmId, MF_BYCOMMAND);
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_TETRAHEDRON:
 			if (EShape::Tetrahedron != pMainWnd->m_shape)
 			{
 				pMainWnd->m_shape = EShape::Tetrahedron;
+
+				CheckMenuRadioItem(GetMenu(hWnd), ID_TRIANGLE, ID_TETRAHEDRON, wmId, MF_BYCOMMAND);
 
 				pMainWnd->createScene();
 			}
 			break;
 		// Select vertex restrictions.
-		case ID_VR_NONE:
+		case ID_NONE:
 			if (EVertexRestrictions::None != pMainWnd->m_restrictions)
 			{
 				pMainWnd->m_restrictions = EVertexRestrictions::None;
 
+				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
+
 				pMainWnd->createScene();
 			}
 			break;
-		case ID_VR_NOT_THE_SAME:
+		case ID_NOT_THE_SAME:
 			if (EVertexRestrictions::NotTheSame != pMainWnd->m_restrictions)
 			{
 				pMainWnd->m_restrictions = EVertexRestrictions::NotTheSame;
 
+				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
+
 				pMainWnd->createScene();
 			}
 			break;
-		case ID_VR_NOT_OFFSET_ONE:
+		case ID_NOT_OFFSET_ONE:
 			if (EVertexRestrictions::NotOffset_1 != pMainWnd->m_restrictions)
 			{
 				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_1;
 
-				pMainWnd->createScene();
-			}
-			break;
-		case ID_VR_NOT_OFFSET_ONE_ANTICLOCKWISE:
-			if (EVertexRestrictions::NotOffset_1_Anticlockwise != pMainWnd->m_restrictions)
-			{
-				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_1_Anticlockwise;
+				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
 				pMainWnd->createScene();
 			}
 			break;
-		case ID_VR_NOT_OFFSET_TWO:
+		case ID_NOT_OFFSET_ONE_ANTICLOCKWISE:
+			if (EVertexRestrictions::NotOffset_1_Anticlockwise != pMainWnd->m_restrictions)
+			{
+				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_1_Anticlockwise;
+
+				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
+
+				pMainWnd->createScene();
+			}
+			break;
+		case ID_NOT_OFFSET_TWO:
 			if (EVertexRestrictions::NotOffset_2 != pMainWnd->m_restrictions)
 			{
 				pMainWnd->m_restrictions = EVertexRestrictions::NotOffset_2;
+
+				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
 				pMainWnd->createScene();
 			}
@@ -322,23 +345,6 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 			switch (key)
 			{
 #if 0
-			case VK_ESCAPE:
-				DestroyWindow(hWnd);
-				break;
-			// Translate the model.
-			case VK_NUMPAD2:
-				pMainWnd->m_spDemo->translateModelX(0.1f);
-				break;
-			case VK_NUMPAD3:
-				pMainWnd->m_spDemo->translateModelX(-0.1f);
-				break;
-				// TODO: translate the second model.
-			case VK_NUMPAD4:
-				pMainWnd->m_spDemo->translateModelX_2(0.7f);
-				break;
-			case VK_NUMPAD5:
-				pMainWnd->m_spDemo->translateModelX_2(-0.7f);
-				break;
 			// Translate the camera.
 			case 0x57:    // W key
 				pMainWnd->m_spDemo->translateCameraY(0.1f);
