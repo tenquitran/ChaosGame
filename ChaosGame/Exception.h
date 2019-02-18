@@ -12,14 +12,12 @@ namespace ChaosGameApp
 		// Exception constructor: formatted string version.
 		Exception(LPCSTR fileName, int lineNumber, LPCTSTR fmtStr, ...);
 
-		virtual ~Exception();
-
 		// Get exception message.
 		const wchar_t* message() const;
 
 	private:
 		std::string m_fileName;
-		int m_lineNumber;
+		int m_lineNumber = {};
 		std::wstring m_message;
 	};
 

@@ -8,7 +8,7 @@ using namespace ChaosGameApp;
 
 
 ProgramGLSL::ProgramGLSL(const ShaderCollection& shaders)
-	: m_program{}, m_shaderFiles(shaders)
+	: m_shaderFiles(shaders)
 {
 	m_program = OpenGLHelpers::buildShaders(m_shaderFiles);
 	if (0 == m_program)

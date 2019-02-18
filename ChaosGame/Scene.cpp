@@ -8,15 +8,15 @@ using namespace ChaosGameApp;
 
 
 Scene::Scene(HDC hDC, GLfloat aspectRatio, GLuint program, EShape shape, EVertexRestrictions restrictions)
-	: m_hDC(hDC), m_program(program), m_vao{}, m_vbo{}, m_pointCount{}, m_unMvp(-1)
+	: m_hDC(hDC), m_program(program)
 {
 	if (!m_hDC)
 	{
-		assert(false); throw EXCEPTION(L"Window device context is NULL");
+		ATLASSERT(FALSE); throw EXCEPTION(L"Window device context is NULL");
 	}
 	else if (!m_program)
 	{
-		assert(false); throw EXCEPTION(L"Invalid GLSL program ID");
+		ATLASSERT(FALSE); throw EXCEPTION(L"Invalid GLSL program ID");
 	}
 
 	// Initial scale factor for the camera.
@@ -46,7 +46,7 @@ Scene::Scene(HDC hDC, GLfloat aspectRatio, GLuint program, EShape shape, EVertex
 		m_spShape = std::make_unique<Tetrahedron>();
 		break;
 	default:
-		assert(false); throw EXCEPTION(L"Undefined or unknown shape");
+		ATLASSERT(FALSE); throw EXCEPTION(L"Undefined or unknown shape");
 	}
 
 	// Set vertex restrictions.
@@ -105,7 +105,7 @@ Scene::Scene(HDC hDC, GLfloat aspectRatio, GLuint program, EShape shape, EVertex
 	m_unMvp = glGetUniformLocation(m_program, "mvp");
 	if (-1 == m_unMvp)
 	{
-		assert(false); throw EXCEPTION(L"Failed to get uniform location: mvp");
+		ATLASSERT(FALSE); throw EXCEPTION(L"Failed to get uniform location: mvp");
 	}
 
 #if DISPLAY_BOUNDING_SHAPE
@@ -180,7 +180,7 @@ void Scene::scaleCamera(GLfloat amount)
 
 void Scene::updateViewMatrices(const std::unique_ptr<Camera>& spCamera) const
 {
-	assert(-1 != m_unMvp);
+	ATLASSERT(-1 != m_unMvp);
 
 	glUseProgram(m_program);
 
@@ -193,7 +193,7 @@ void Scene::updateViewMatrices(const std::unique_ptr<Camera>& spCamera) const
 
 void Scene::render() const
 {
-	assert(m_program);
+	ATLASSERT(m_program);
 
 	updateViewMatrices(m_spCamera);
 

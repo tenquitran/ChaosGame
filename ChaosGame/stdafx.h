@@ -20,7 +20,6 @@
 
 // Additional headers our program requires.
 
-#include <cassert>
 #include <string>
 #include <locale>
 #include <codecvt>

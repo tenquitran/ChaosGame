@@ -15,24 +15,23 @@ const size_t MaxPreviousVertices = 2;
 Shape::Shape(size_t vertexCount)
 	: VertexCount(vertexCount), 
 	  m_randomEngine(std::random_device{}()), 
-	  m_rng(0, vertexCount - 1),
-	  m_selectionRestrictions(EVertexRestrictions::None)
+	  m_rng(0, vertexCount - 1)
 {
 	if (VertexCount < 3)
 	{
-		assert(false); throw EXCEPTION(L"A shape should consist of at least 3 vertices");
+		ATLASSERT(FALSE); throw EXCEPTION(L"A shape should consist of at least 3 vertices");
 	}
 
 #if 0
 	if (   EVertexRestrictions::NotOffsets_1_and_3 == m_selectionRestrictions
 		&& VertexCount < 4)
 	{
-		assert(false); throw EXCEPTION_FMT(L"Offset 3 requires a shape with at least 4 vertices");
+		ATLASSERT(FALSE); throw EXCEPTION_FMT(L"Offset 3 requires a shape with at least 4 vertices");
 	}
 	else if (   EVertexRestrictions::NotOffsets_1_and_4 == m_selectionRestrictions
 		     && VertexCount < 5)
 	{
-		assert(false); throw EXCEPTION_FMT(L"Offset 4 requires a shape with at least 5 vertices");
+		ATLASSERT(FALSE); throw EXCEPTION_FMT(L"Offset 4 requires a shape with at least 5 vertices");
 	}
 #endif
 }
@@ -160,7 +159,7 @@ glm::vec3 Shape::selectVertex() const
 		break;
 #endif
 	default:    // new restriction?
-		assert(false); break;
+		ATLASSERT(FALSE); break;
 	}
 
 	// Remove the excessive info on previously selected vertices.

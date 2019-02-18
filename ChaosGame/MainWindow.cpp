@@ -9,17 +9,16 @@ using namespace ChaosGameApp;
 
 
 MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
-	: m_hInstance(hInstance), m_clientWidth(width), m_clientHeight(height), 
-	  m_hWnd(nullptr), m_hRC(nullptr), m_shape(EShape::Undefined), m_restrictions(EVertexRestrictions::None)
+	: m_hInstance(hInstance), m_clientWidth(width), m_clientHeight(height)
 {
 	if (!m_hInstance)
 	{
-		assert(false); throw EXCEPTION(L"Application instance is NULL");
+		ATLASSERT(FALSE); throw EXCEPTION(L"Application instance is NULL");
 	}
 	else if (   m_clientWidth  < 1 
 		     || m_clientHeight < 1)
 	{
-		assert(false); throw EXCEPTION_FMT(L"Invalid window size: (%d, %d)", m_clientWidth, m_clientHeight);
+		ATLASSERT(FALSE); throw EXCEPTION_FMT(L"Invalid window size: (%d, %d)", m_clientWidth, m_clientHeight);
 	}
 
 	// Initialize global strings.
@@ -28,7 +27,7 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
 
 	if (!registerClass())
 	{
-		assert(false); throw EXCEPTION(L"Failed to register windows class");
+		ATLASSERT(FALSE); throw EXCEPTION(L"Failed to register windows class");
 	}
 
 	// Perform application initialization:
@@ -74,7 +73,7 @@ BOOL MainWindow::initInstance(int nCmdShow)
 	if (!AdjustWindowRect(&wndRect, WINDOW_STYLE, FALSE))
 	{
 		std::cerr << "AdjustWindowRect() failed: " << GetLastError() << '\n';
-		assert(false); return FALSE;
+		ATLASSERT(FALSE); return FALSE;
 	}
 
 	m_hWnd = CreateWindow(m_szWindowClass, m_szTitle, WINDOW_STYLE, CW_USEDEFAULT, CW_USEDEFAULT, 
@@ -82,7 +81,7 @@ BOOL MainWindow::initInstance(int nCmdShow)
 	if (!m_hWnd)
 	{
 		std::cerr << "CreateWindow() failed: " << GetLastError() << '\n';
-		assert(false); return FALSE;
+		ATLASSERT(FALSE); return FALSE;
 	}
 
 	ShowWindow(m_hWnd, nCmdShow);
@@ -90,7 +89,7 @@ BOOL MainWindow::initInstance(int nCmdShow)
 	if (!UpdateWindow(m_hWnd))
 	{
 		std::cerr << "UpdateWindow() failed\n";
-		assert(false); return FALSE;
+		ATLASSERT(FALSE); return FALSE;
 	}
 
 	return TRUE;
@@ -115,7 +114,7 @@ int MainWindow::runMessageLoop()
 	if (!hDC)
 	{
 		std::cerr << __FUNCTION__ << ": device context is NULL\n";
-		assert(false); return 1;
+		ATLASSERT(FALSE); return 1;
 	}
 
 	// Set up OpenGL context for our window.
@@ -126,7 +125,7 @@ int MainWindow::runMessageLoop()
 	if (!OpenGLHelpers::setupOpenGlContext(OpenGlMajor, OpenGlMinor, hDC, m_hRC))
 	{
 		std::cerr << "Failed to set up OpenGL context (version " << OpenGlMajor << "." << OpenGlMinor << ")\n";
-		assert(false); return 1;
+		ATLASSERT(FALSE); return 1;
 	}
 
 	glEnable(GL_DEPTH_TEST);
@@ -203,7 +202,7 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 	{
 	case WM_CREATE:
 		pMainWnd = (MainWindow *)((LPCREATESTRUCT)lParam)->lpCreateParams;
-		assert(pMainWnd);
+		ATLASSERT(pMainWnd);
 		break;
 	case WM_COMMAND:
 		wmId = LOWORD(wParam);

@@ -14,8 +14,6 @@ namespace ChaosGameApp
 		Camera(GLfloat aspectRatio, GLfloat scaleFactor = 1.0f,
 			GLfloat fieldOfView = 45.0f, GLfloat frustumNear = 0.1f, GLfloat frustumFar = 1000.0f);
 
-		virtual ~Camera();
-
 		glm::mat4 getProjectionMatrix() const;
 
 		glm::mat4 getModelMatrix() const;
@@ -53,25 +51,25 @@ namespace ChaosGameApp
 
 	private:
 		// Aspect ratio of the main application window.
-		GLfloat m_aspectRatio;
+		GLfloat m_aspectRatio = {};
 
 		// Initial scale factor for the camera.
-		const GLfloat SCALE_FACTOR_INITIAL;
+		const GLfloat SCALE_FACTOR_INITIAL = { 1.0f };
 
 		// Minimum scale factor value.
-		const GLfloat SCALE_FACTOR_MINIMUM;
+		const GLfloat SCALE_FACTOR_MINIMUM = { 0.01f };
 
 		// Variable (user-defined) scale factor for the camera.
-		GLfloat m_scaleFactorVariable;
+		GLfloat m_scaleFactorVariable = { 1.0f };
 
 		// Field of view angle.
-		const GLfloat FIELD_OF_VIEW;
+		const GLfloat FIELD_OF_VIEW = { 45.0f };
 
 		// Near frustum boundary.
-		const GLfloat FRUSTUM_NEAR;
+		const GLfloat FRUSTUM_NEAR = { 0.1f };
 
 		// Far frustum boundary.
-		const GLfloat FRUSTUM_FAR;
+		const GLfloat FRUSTUM_FAR = { 1000.0f };
 
 		// Translation vector of the camera.
 		glm::vec3 m_translation;

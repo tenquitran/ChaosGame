@@ -31,7 +31,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	catch (const Exception& ex)
 	{
 		std::cerr << std::wstring_convert< std::codecvt_utf8<wchar_t> >().to_bytes(ex.message()) << '\n';
-		assert(false);
+		ATLASSERT(FALSE);
 	}
 	catch (const std::bad_alloc&)
 	{

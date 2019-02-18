@@ -189,12 +189,12 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (versionMajor < 1)
 	{
 		std::cerr << __FUNCTION__ << ": invalid OpenGL major version: " << versionMajor << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 	else if (!hDC)
 	{
 		std::cerr << __FUNCTION__ << ": windows device context is NULL\n";
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Step 1. Set pixel format for the Windows DC.
@@ -219,14 +219,14 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (0 == pixelFormat)
 	{
 		std::cerr << __FUNCTION__ << ": ChoosePixelFormat() failed: " << GetLastError() << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Set the pixel format for the device context and the associated window.
 	if (!SetPixelFormat(hDC, pixelFormat, &pfd))
 	{
 		std::cerr << __FUNCTION__ << ": SetPixelFormat() failed: " << GetLastError() << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Step 2. Create a temporary OpenGL rendering context to try to get the latest one - see below.
@@ -234,14 +234,14 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (!hRcTmp)
 	{
 		std::cerr << __FUNCTION__ << ": wglCreateContext() failed: " << GetLastError() << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Step 3. Make the temporary rendering context current for our thread.
 	if (!wglMakeCurrent(hDC, hRcTmp))
 	{
 		std::cerr << __FUNCTION__ << ": wglMakeCurrent() failed: " << GetLastError() << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Step 4. Initialize GLEW (in particular, to be able to conveniently use the wglCreateContextAttribsARB extension.
@@ -252,7 +252,7 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (GLEW_OK != err)
 	{
 		std::cerr << __FUNCTION__ << "glewInit() failed: " << (char *)glewGetErrorString(err) << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Step 5. Set up the modern OpenGL rendering context.
@@ -272,7 +272,7 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (!wglCreateContextAttribsARB)
 	{
 		std::cerr << __FUNCTION__ << ": OpenGL version " << versionMajor << "." << versionMinor << " not supported\n";
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// Create a modern OpenGL context.
@@ -280,7 +280,7 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (!hRC)
 	{
 		std::cerr << __FUNCTION__ << "wglCreateContextAttribsARB() failed\n";
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	// On success, delete the temporary context.
@@ -290,7 +290,7 @@ bool OpenGLHelpers::setupOpenGlContext(int versionMajor, int versionMinor, HDC h
 	if (!wglMakeCurrent(hDC, hRC))
 	{
 		std::cerr << __FUNCTION__ << ": wglMakeCurrent() failed (2): " << GetLastError() << '\n';
-		assert(false); return false;
+		ATLASSERT(FALSE); return false;
 	}
 
 	std::cout << "Set up OpenGL context: version " << versionMajor << "." << versionMinor << '\n';
@@ -329,7 +329,7 @@ void APIENTRY OpenGLHelpers::openGlDebugCallback(GLenum source, GLenum type, GLu
 		std::cout << "other source";
 		break;
 	default:    // unknown source?
-		assert(false); break;
+		ATLASSERT(FALSE); break;
 	}
 
 	std::cout << "\nMessage text: " << message;

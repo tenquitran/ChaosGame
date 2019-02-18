@@ -36,9 +36,9 @@ namespace ChaosGameApp
 
 	protected:
 		// Application instance.
-		HINSTANCE m_hInstance;
+		HINSTANCE m_hInstance = { nullptr };
 
-		static const size_t MAX_LOADSTRING = 100;
+		static const size_t MAX_LOADSTRING = { 100 };
 
 		// Title bar text.
 		TCHAR m_szTitle[MAX_LOADSTRING];
@@ -47,23 +47,23 @@ namespace ChaosGameApp
 		TCHAR m_szWindowClass[MAX_LOADSTRING];
 
 		// Width and height of the window's client area (in pixels).
-		int m_clientWidth;
-		int m_clientHeight;
+		int m_clientWidth  = {};
+		int m_clientHeight = {};
 
 		// Window handle.
-		HWND m_hWnd;
+		HWND m_hWnd = { nullptr };
 
 		// OpenGL rendering context.
-		HGLRC m_hRC;
+		HGLRC m_hRC = { nullptr };
 
 		// GLSL program.
 		std::unique_ptr<ProgramGLSL> m_spProgram;
 
 		// Shape for the chaos game.
-		EShape m_shape;
+		EShape m_shape = { EShape::Undefined };
 
 		// Vertex restrictions for the chaos game.
-		EVertexRestrictions m_restrictions;
+		EVertexRestrictions m_restrictions = { EVertexRestrictions::None };
 
 		// OpenGL scene for the chaos game.
 		std::unique_ptr<Scene> m_spScene;

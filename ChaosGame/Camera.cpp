@@ -10,7 +10,7 @@ using namespace ChaosGameApp;
 Camera::Camera(GLfloat aspectRatio, GLfloat scaleFactor /*= 1.0f*/, 
 	GLfloat fieldOfView /*= 45.0f*/, GLfloat frustumNear /*= 0.1f*/, GLfloat frustumFar /*= 1000.0f*/)
 	: m_aspectRatio(aspectRatio), 
-	  SCALE_FACTOR_INITIAL(scaleFactor), SCALE_FACTOR_MINIMUM(0.01f), m_scaleFactorVariable(1.0f),
+	  SCALE_FACTOR_INITIAL(scaleFactor), SCALE_FACTOR_MINIMUM(0.01f), 
 	  FIELD_OF_VIEW(fieldOfView), FRUSTUM_NEAR(frustumNear), FRUSTUM_FAR(frustumFar)
 {
 	m_view = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.5f),    // camera location
@@ -18,10 +18,6 @@ Camera::Camera(GLfloat aspectRatio, GLfloat scaleFactor /*= 1.0f*/,
 		glm::vec3(0.0f, 1.0f, 0.0f));                    // the "up" direction
 
 	updateMVP();
-}
-
-Camera::~Camera()
-{
 }
 
 glm::mat4 Camera::getProjectionMatrix() const

@@ -26,7 +26,7 @@ namespace ChaosGameApp
 
 	private:
 		// GLSL program.
-		GLuint m_program;
+		GLuint m_program = {};
 
 		// Data on shader files to load and build.
 		const ShaderCollection m_shaderFiles;

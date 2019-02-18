@@ -20,12 +20,12 @@ Exception::Exception(LPCSTR fileName, int lineNumber, LPCTSTR fmtStr, ...)
 	va_start(pArgs, fmtStr);
 
 	int ccLen = ::_vscwprintf(fmtStr, pArgs);
-	assert(ccLen >= 0);
+	ATLASSERT(ccLen >= 0);
 
 	std::vector<wchar_t> buff(ccLen + 1);
 
 	int ccWritten = ::vswprintf_s(&buff[0], buff.size(), fmtStr, pArgs);
-	assert(ccWritten == ccLen);
+	ATLASSERT(ccWritten == ccLen);
 
 	va_end(pArgs);
 
@@ -33,10 +33,6 @@ Exception::Exception(LPCSTR fileName, int lineNumber, LPCTSTR fmtStr, ...)
 	{
 		m_message.assign(buff.cbegin(), buff.cend());
 	}
-}
-
-Exception::~Exception()
-{
 }
 
 const wchar_t* Exception::message() const

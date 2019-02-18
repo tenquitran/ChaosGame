@@ -44,17 +44,17 @@ namespace ChaosGameApp
 		const GLfloat FrustumFar = 1000.0f;
 
 		// Device context of the main window.
-		HDC m_hDC;
+		HDC m_hDC = { nullptr };
 
 		// GLSL program identifier.
-		GLuint m_program;
+		GLuint m_program = {};
 
-		GLuint m_vao;
-		GLuint m_vbo;
+		GLuint m_vao = {};
+		GLuint m_vbo = {};
 
-		size_t m_pointCount;    // number of points to render
+		size_t m_pointCount = {};    // number of points to render
 
-		GLint m_unMvp;          // MVP matrix uniform
+		GLint m_unMvp = { -1 };          // MVP matrix uniform
 
 		std::unique_ptr<Camera> m_spCamera;
 

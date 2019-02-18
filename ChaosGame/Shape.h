@@ -29,7 +29,7 @@ namespace ChaosGameApp
 	protected:
 #endif
 		// Number of vertices defining the shape.
-		const size_t VertexCount;
+		const size_t VertexCount = {};
 
 		// Vertex coordinates.
 		std::vector<glm::vec3> m_vertices;
@@ -41,7 +41,7 @@ namespace ChaosGameApp
 		std::uniform_int_distribution<size_t> m_rng;
 
 		// Restrictions on vertex selection.
-		EVertexRestrictions m_selectionRestrictions;
+		EVertexRestrictions m_selectionRestrictions = { EVertexRestrictions::None };
 
 		// Previously chosen vertex indices 
 		// (front - the previous one, next - the one before the previous, etc.).
