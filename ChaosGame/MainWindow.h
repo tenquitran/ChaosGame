@@ -60,7 +60,7 @@ namespace ChaosGameApp
 		std::unique_ptr<ProgramGLSL> m_spProgram;
 
 		// Shape for the chaos game.
-		EShape m_shape = { EShape::Undefined };
+		EShape m_shape = { EShape::Triangle };
 
 		// Vertex restrictions for the chaos game.
 		EVertexRestrictions m_restrictions = { EVertexRestrictions::None };

@@ -36,7 +36,14 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
 		throw EXCEPTION(L"Failed to initialize application instance");
 	}
 
-	// The default vertex restrictions are "None", so check the corresponding menu item (as a radio item).
+	// Check menu radio items for the default values.
+
+	// Default shape: a triangle.
+	ATLASSERT(EShape::Triangle == m_shape);
+	CheckMenuRadioItem(GetMenu(m_hWnd), ID_TRIANGLE, ID_TETRAHEDRON, ID_TRIANGLE, MF_BYCOMMAND);
+
+	// Default vertex restrictions: "None".
+	ATLASSERT(EVertexRestrictions::None == m_restrictions);
 	CheckMenuRadioItem(GetMenu(m_hWnd), ID_NONE, ID_NOT_OFFSET_TWO, ID_NONE, MF_BYCOMMAND);
 }
 
@@ -142,6 +149,9 @@ int MainWindow::runMessageLoop()
 	};
 
 	m_spProgram = std::make_unique<ProgramGLSL>(shaders);
+
+	// Create a scene with default parameters.
+	createScene();
 
 	MSG msg = {};
 
@@ -270,7 +280,10 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
-				pMainWnd->createScene();
+				if (EShape::Undefined != pMainWnd->m_shape)
+				{
+					pMainWnd->createScene();
+				}
 			}
 			break;
 		case ID_NOT_THE_SAME:
@@ -280,7 +293,10 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
-				pMainWnd->createScene();
+				if (EShape::Undefined != pMainWnd->m_shape)
+				{
+					pMainWnd->createScene();
+				}
 			}
 			break;
 		case ID_NOT_OFFSET_ONE:
@@ -290,7 +306,10 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
-				pMainWnd->createScene();
+				if (EShape::Undefined != pMainWnd->m_shape)
+				{
+					pMainWnd->createScene();
+				}
 			}
 			break;
 		case ID_NOT_OFFSET_ONE_ANTICLOCKWISE:
@@ -300,7 +319,10 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
-				pMainWnd->createScene();
+				if (EShape::Undefined != pMainWnd->m_shape)
+				{
+					pMainWnd->createScene();
+				}
 			}
 			break;
 		case ID_NOT_OFFSET_TWO:
@@ -310,7 +332,10 @@ LRESULT CALLBACK MainWindow::windowProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 				CheckMenuRadioItem(GetMenu(hWnd), ID_NONE, ID_NOT_OFFSET_TWO, wmId, MF_BYCOMMAND);
 
-				pMainWnd->createScene();
+				if (EShape::Undefined != pMainWnd->m_shape)
+				{
+					pMainWnd->createScene();
+				}
 			}
 			break;
 		// Other menu items.
